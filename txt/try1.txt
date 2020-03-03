@@ -1,0 +1,92 @@
+Create schema try1;
+
+SET SEARCH_PATH TO try1;
+
+--tworzenie tablic---------------
+
+CREATE TABLE try1.adres  ( nr_id VARCHAR(4), kod_pocztowy VARCHAR(6), miejscowosc VARCHAR(30), ulica VARCHAR(30), nr_budynku VARCHAR(6) );   
+CREATE TABLE try1.wlasciciel  ( NIP VARCHAR(10), imie VARCHAR(20), nazwisko VARCHAR(20) );   
+CREATE TABLE try1.hurtownia  ( nr_hurtownia VARCHAR(4), nazwa VARCHAR(20),NIP_wlasciciel VARCHAR(10),id_adres VARCHAR(4));             
+CREATE TABLE try1.sklep  ( nr_sklep VARCHAR(4), nazwa VARCHAR(20),NIP_wlasciciel VARCHAR(10), id_adres VARCHAR(4));   
+CREATE TABLE try1.faktura  ( nr_dostawy VARCHAR(10), kwota INT,rodzaj_zaplaty VARCHAR(20), data_waznosci DATE);
+CREATE TABLE try1.towar  ( nr_serii VARCHAR(10), nazwa VARCHAR(20),data_waznosci DATE, nr_dostawy VARCHAR(10));
+CREATE TABLE try1.dostawa  ( nr_dostawy VARCHAR(10), data_dostawy DATE,nr_sklep VARCHAR(4), nr_hurtownia VARCHAR(4), nr_dostawcy VARCHAR(11));   
+CREATE TABLE try1.dostawca (PESEL VARCHAR(11), imie VARCHAR(20), nazwisko VARCHAR(20));
+------------dodanie kluczy-------------
+
+
+ALTER TABLE try1.adres add primary key (nr_id) ;
+ALTER TABLE try1.wlasciciel add primary key (NIP) ;
+ALTER TABLE try1.hurtownia add primary key (nr_hurtownia) ;
+ALTER TABLE try1.sklep add primary key (nr_sklep) ;
+ALTER TABLE try1.faktura add primary key (nr_dostawy) ;
+ALTER TABLE try1.towar add primary key (nr_serii) ;
+ALTER TABLE try1.dostawa add primary key (nr_dostawy) ;
+ALTER TABLE try1.dostawca add primary key (PESEL);
+------- LACZENIE TABEL -----------------
+ALTER TABLE try1.towar ADD foreign key (nr_dostawy) references try1.dostawa (nr_dostawy) ;
+ALTER TABLE try1.faktura ADD foreign key (nr_dostawy) references try1.dostawa (nr_dostawy) ;
+ALTER TABLE try1.dostawa ADD foreign key (nr_hurtownia) references try1.hurtownia (nr_hurtownia) ;
+ALTER TABLE try1.dostawa ADD foreign key (nr_sklep) references try1.sklep (nr_sklep) ;
+ALTER TABLE try1.dostawa ADD foreign key (nr_dostawcy) references try1.dostawca (PESEL);
+ALTER TABLE try1.hurtownia ADD foreign key (NIP_wlasciciel) references try1.wlasciciel (NIP) ;
+ALTER TABLE try1.hurtownia ADD foreign key (id_adres) references try1.adres (nr_id) ;
+ALTER TABLE try1.sklep ADD foreign key (NIP_wlasciciel) references try1.wlasciciel (NIP) ;
+ALTER TABLE try1.sklep ADD foreign key (id_adres) references try1.adres (nr_id) ;
+
+------------ tabela adres----------------------
+INSERT INTO try1.adres( nr_id, kod_pocztowy, miejscowosc, ulica, nr_budynku ) VALUES ('A001','32-200','Miechow','Warszawska','28A'),
+	('A002','32-250','Miechow-Charsznica','Miechowska','2A'),
+	('A003','31-435','Krakow','Krolewska','6');
+------------tabela wlasciciel-------------------
+INSERT INTO  try1.wlasciciel ( NIP, imie, nazwisko ) VALUES ('1234567890','Jan','Kowalski'),
+	('5555555555','Mariusz','Nowak'),
+	('1010101010','Edward','Snowden'),
+	('1111111110','Jan','Kowal'),
+	('5678998765','Stanislaw','Pawlowski'),
+	('1595195159','Bartosz','Polanski');
+
+------------ tabela sklep----------------------
+INSERT INTO  try1.sklep  ( nr_sklep, nazwa, NIP_wlasciciel, id_adres) VALUES ('S001','Marco','1234567890','A001'),
+	('S002','Valdo','5555555555','A001'),
+	('S003','Marco','1234567890','A001'),
+	('S004','Marco','1234567890','A001'),
+	('S005','Pallol','1010101010','A001'),
+	('S006','Marco','1234567890','A001');
+------------ tabela hurtownia----------------------
+INSERT INTO  try1.hurtownia ( nr_hurtownia, nazwa, NIP_wlasciciel, id_adres) VALUES ('H001','HurtowniaSpozywcza','1111111110','A001'),
+	('H002','Go','5678998765','A001'),
+	('H003','Go','5678998765','A001'),
+	('H004','Bolo','1595195159','A001'),
+	('H005','Bolo','1595195159','A001'),
+	('H006','Alco','1234567890','A001');
+--------------dostawca-----------musi byc przed dostawa-----------------------
+INSERT INTO try1.dostawca (PESEL, imie, nazwisko) VALUES ('60080800044','Marek','Mostowiak');
+
+---dostawa mozna po fakturze i towarze ale reszta musi byc---
+INSERT INTO  try1.dostawa  ( nr_dostawy, data_dostawy,nr_sklep, nr_hurtownia,nr_dostawcy) VALUES ('2019/00001','18/12/2019','S001','H001','60080800044');
+INSERT INTO  try1.dostawa  ( nr_dostawy, data_dostawy,nr_sklep, nr_hurtownia,nr_dostawcy) VALUES ('2019/00002','18/12/2019','S001','H001','60080800044'),
+('2019/00003','13/12/2019','S001','H001','60080800044'),
+('2019/00004','12/12/2019','S002','H002','60080800044'),('2019/00005','18/12/2019','S001','H001','60080800044'),
+('2019/00006','11/12/2019','S002','H002','60080800044'),('2019/00007','18/12/2019','S001','H001','60080800044'),
+('2019/00008','16/12/2019','S002','H002','60080800044'),('2019/00009','18/12/2019','S001','H001','60080800044'),
+('2019/00010','18/12/2019','S002','H002','60080800044'),('2019/00011','18/12/2019','S001','H001','60080800044');
+
+-------------faktura-------------------------------
+---chyba trzeba skasowac nip-y
+INSERT INTO try1.faktura  ( nr_dostawy, kwota,rodzaj_zaplaty, data_waznosci) VALUES ('2019/00001',17000,'gotowka','18/12/2021');
+INSERT INTO try1.faktura  ( nr_dostawy, kwota,rodzaj_zaplaty, data_waznosci) VALUES ('2019/00002',17000,'gotowka','18/12/2021'),
+('2019/00003',17000,'gotowka','18/12/2021'),
+('2019/00004',17000,'gotowka','18/12/2021'),('2019/00005',17000,'gotowka','18/12/2021'),
+('2019/00006',17000,'gotowka','18/12/2021'),('2019/00007',17000,'gotowka','18/12/2021'),
+('2019/00008',17000,'gotowka','18/12/2021'),('2019/00009',17000,'gotowka','18/12/2021'),
+('2019/00010',17000,'gotowka','18/12/2021'),('2019/00011',17000,'gotowka','18/12/2021');
+
+------------towar-----------------
+INSERT INTO try1.towar ( nr_serii, nazwa,data_waznosci, nr_dostawy) VALUES (1,'apple','03/03/2013','2019/00001');
+INSERT INTO try1.towar ( nr_serii, nazwa,data_waznosci, nr_dostawy) VALUES (2,'apple','03/03/2013','2019/00002');
+
+
+
+--------------------------
+-----DROP SCHEMA try1 CASCADE;

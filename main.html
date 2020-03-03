@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="./main.css" rel="stylesheet" type="text/css"/>
+        <script src="./main.js"></script>
+        <script src="https://kit.fontawesome.com/bdd56d142d.js" crossorigin="anonymous"></script>
+
+        <title>Menadżer dostaw</title>
+    </head>
+    <body>
+
+        <article>
+				
+            <header>
+                
+                <h1 class = "title" id="tit">Pick your poison.</h1>
+            </header>
+            <div class="all">
+                <div class="box">
+                  <h2 class="box__title">Dostawca</h2>
+                  <p class="box__description">Możesz sprawdzić swoje kolejne dowtawy.</p>
+                  <button class="box__button" onclick="choice1()">choose</button>
+                </div>
+                <div class="box center"> 
+                  <h2 class="box__title">Dodaj</h2>
+                  <p class="box__description">Mozesz dodac elementy do bazy danych.</p>
+                  <button class="box__button" onclick="choice2()">choose</button>
+                </div>
+                <div class="box">
+                  <h2 class="box__title">Ksiegowosc</h2>
+                  <p class="box__description">Sprawdz ostatnie faktury</p>
+                  <button class="box__button" onclick="choice3()">choose</button>
+                </div>
+            </div>
+            <div class="dostawca" style="display:none;">
+                    <div id="lista_dostawcow"></div><br>
+                    <div id="lista_dostaw"></div><br>
+						<a href="/~6sitko/p/main.html" class="reload_main"><font color="beige">Cofnij</font></a>
+                    <button class="box__button" onclick="pobierz_liste_dostaw()">Wybierz</button>
+
+            </div>
+            <div class="dodaj" style="display:none;">
+
+                <div class="box_3">
+                  <button onclick="location.href = 'dodawanie/w.html';" id="myButton" class="box_3_button" >Właściciel</button>
+                </div>
+                <div class="box_3"> 
+                  <button onclick="location.href = 'dodawanie/a.html';" id="myButton" class="box_3_button" >Adres</button>
+                </div>
+                <div class="box_3">
+                  <button onclick="location.href = 'dodawanie/d.html';" id="myButton" class="box_3_button" >Dostawa</button>
+                </div>
+                <div class="box_3">
+                  <button onclick="location.href = 'dodawanie/t.html';" id="myButton" class="box_3_button" >Towar</button>
+                </div>
+                <div class="box_3">
+                  <button onclick="location.href = 'dodawanie/f.html';" id="myButton" class="box_3_button" >Faktura</button>
+                </div>
+                <div class="box_3">
+                  <button onclick="location.href = 'dodawanie/s.html';" id="myButton" class="box_3_button" >Sklep</button>
+                </div>
+                <div class="box_3">
+                  <button onclick="location.href = 'dodawanie/h.html';" id="myButton" class="box_3_button" >Hurtownia</button>
+                </div>
+					<div class="box_3">
+                  <button onclick="location.href = 'dodawanie/ds.html';" id="myButton" class="box_3_button" >Dostawca</button>
+                </div>
+					<div class="box_3">
+                  <button onclick="location.href = '/~6sitko/p/main.html'" id="myButton" class="box_3_button">Cofnij</button>
+             	</div>
+
+
+            </div>
+            </div>
+            <div class="ksiegowosc" style="display:none;">
+                <div class="box_3">
+                        <div id="lista_faktur"></div>
+							<a href="/~6sitko/p/main.html" class="reload_main"><font color="beige">Cofnij</font></a>
+                        <button class="box__button" onclick="lista_faktur_more()">Pokaż więcej</button>  
+
+                </div>
+            </div>
+
+        </article>
+	<script>
+	</script>
+
+    </body>
+</html>

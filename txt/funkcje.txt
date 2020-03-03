@@ -1,0 +1,50 @@
+-----------------------------------------------------------------------
+CREATE OR REPLACE FUNCTION pobierz_adres_hurtownia( nr_h VARCHAR(4) )
+RETURNS SETOF adres AS
+$$
+SELECT a.nr_id,a.kod_pocztowy,a.miejscowosc,a.ulica,a.nr_budynku FROM try1.hurtownia h LEFT JOIN try1.adres a ON h.id_adres=a.nr_id 
+WHERE h.nr_hurtownia =nr_h;
+$$
+LANGUAGE SQL;
+
+CREATE OR REPLACE FUNCTION pobierz_adres_sklep( nr_s VARCHAR(4) )
+RETURNS SETOF adres AS
+$$
+SELECT a.nr_id,a.kod_pocztowy,a.miejscowosc,a.ulica,a.nr_budynku FROM try1.sklep s LEFT JOIN try1.adres a ON s.id_adres=a.nr_id 
+WHERE s.nr_sklep =nr_s;
+$$
+LANGUAGE SQL;
+
+--------------------------------choice1-------------dostawy dla dostawcy x--------------------------------------
+CREATE TYPE choice1 as (nr_dostawy VARCHAR(10), data_dostawy DATE, adres_hurtownii try1.adres, adres_sklepu try1.adres);
+
+
+
+CREATE OR REPLACE FUNCTION pobierz_liste_dostaw ( p VARCHAR(11) )
+RETURNS SETOF choice1 AS
+$$
+	select d.nr_dostawy,d.data_dostawy,pobierz_adres_hurtownia(d.nr_hurtownia),pobierz_adres_sklep(d.nr_sklep) from try1.dostawa d where d.nr_dostawcy=p;
+$$
+LANGUAGE SQL;
+
+
+
+
+
+----select d.nr_dostawy,d.data_dostawy,pobierz_adres_hurtownia(d.nr_hurtownia),pobierz_adres_sklep(d.nr_sklep) from try1.dostawa d where d.nr_dostawca=p;
+
+
+------------------------------------choice3--------------------------------------------
+
+---select f.nr_dostawy,f.kwota,f.rodzaj_zaplaty,d.data_dostawy,pobierz_adres_hurtownia(d.nr_hurtownia),pobierz_adres_sklep(d.nr_sklep) from faktura f left join dostawa d on d.nr_dostawy=f.nr_dostawy;
+
+
+
+
+
+
+
+
+
+
+

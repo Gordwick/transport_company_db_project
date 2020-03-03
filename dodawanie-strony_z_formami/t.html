@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+	<script src="./h.js" type="text/javascript"></script>
+        <link href="./../main.css" rel="stylesheet" type="text/css"/>
+        <title>Menadżer dostaw.</title>
+    </head>
+    <body onload="t_start()">
+        <article>
+            <header>
+                <h1 class = "title" id="tit">Dodaj towar. </h1>
+            </header>
+        <div class="all" >
+            <form name="form1" action="../../cgi-bin/project1/t.py "  method="POST"  >
+                <p>Numer dostawy: (*pole wymagane)</p>
+                <div id="lista_nr_dostaw"></div>
+                <p>Nazwa:</p>
+                <input type="text" pattern="[0-9A-Za-Z]{1,20}" required title="Od 1 do 20 liter" size="25" name="nazwa" /><br/>
+                <p>data_ważności:</p>
+                <input type="text"  pattern="(?:19|20)[0-9]{2}-(?:(?:0[1-9]|1[0-2])-(?:0[1-9]|1[0-9]|2[0-9])|(?:(?!02)(?:0[1-9]|1[0-2])-(?:30))|(?:(?:0[13578]|1[02])-31))" required title="Data w formanie yyyy-mm-dd" size="20" name="data_waznosci" />
+                <p>Numer serii</p>
+                <input type="text" pattern="[0-9]{1,10}" required title="Od 1 do 10 liczb" size="20" name="nr_serii" /><br/>
+                <br><br>
+			      <a href="/~6sitko/p/main.html" class="reload_main"><font color="beige">Cofnij</font></a>
+			      <input type="submit" class="box__button" value="Dodaj" />
+            </form>
+        </div>
+        </article>
+    </body>
+</html>

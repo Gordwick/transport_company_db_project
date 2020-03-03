@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="utf-8">
+        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
+        <link href="./../main.css" rel="stylesheet" type="text/css"/>
+        <title>Menadżer dostaw.</title>
+    </head>
+    <body>
+
+        <article>
+            <header>
+                <h1 class = "title" id="tit">Dodaj Właściciela.</h1>
+
+            </header>
+        <div class="all" >
+            <form name="form1"  onsubmit="return validate()" action="../../cgi-bin/project1/w.py "  method="POST"  >
+                <p>Imie: (*pole wymagane)</p>
+                <input type="text" pattern=".{1,20}" required title="Od 1 do 20 znaków" size="20" name="pole1" />
+                <p>Nazwisko: (*pole wymagane)</p>
+                <input type="text" pattern=".{1,20}" required title="Od 1 do 20 znaków" size="20" name="pole2" />
+                <p>NIP: (*pole wymagane)</p>
+                <input type="text" pattern=".{10}" required title="NIP ma 10 znakow" size="11" name="pole3" /><br><br>
+					<a href="/~6sitko/p/main.html" class="reload_main"><font color="beige">Cofnij</font></a>
+                <input type="submit" class="box__button" value="Dodaj" />
+            </form>
+
+        </div>
+        </article>
+    </body>
+</html>
